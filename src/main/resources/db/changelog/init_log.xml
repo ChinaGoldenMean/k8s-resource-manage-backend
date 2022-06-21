@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <property name="autoIncrement" value="false" dbms="oracle"/>
+    <property name="autoIncrement" value="true" dbms="mysql,mssql,h2,postgresql,sybase"/>
+    <property name="intType" value="bigint" dbms="postgresql"/>
+    <property name="intType" value="int(11)" dbms="mysql,mssql,h2,oracle,sybase"/>
+
+    <changeSet id="LOG-ORACLE-20190128-001" dbms="oracle" author="ctsi">
+        <createSequence sequenceName="SEQ_CSCP_LOG_LOGIN_ID" incrementBy="1" minValue="1" maxValue="99999999999" startValue="1"/>
+    </changeSet>
+    <changeSet id="LOG-20190128-001" author="ctsi">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="cscp_log_login"/>
+            </not>
+        </preConditions>
+        <createTable tableName="cscp_log_login" remarks="登录日志">
+            <column name="id" type="${intType}" autoIncrement="${autoIncrement}" remarks="唯一标识">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="user_name" type="varchar(50)"  remarks="用户名">
+                <constraints nullable="true" />
+            </column>
+            <column name="ip" type="varchar(50)"  remarks="用户ip" >
+                <constraints nullable="true" />
+            </column>
+            <column name="message" type="varchar(255)" remarks="登录信息" >
+                <constraints nullable="true" />
+            </column>
+            <column name="time" type="datetime" remarks="登录时间" >
+                <constraints nullable="true" />
+            </column>
+            <column name="status" type="varchar(10)" remarks="登录状态" >
+                <constraints nullable="true" />
+            </column>
+        </createTable>
+        <sql dbms="mysql" >ALTER TABLE `cscp_log_login` CONVERT TO CHARACTER SET UTF8;</sql>
+        <rollback>
+            <dropTable tableName="cscp_log_login"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="LOG-ORACLE-20190128-002" dbms="oracle" author="ctsi">
+        <createSequence sequenceName="SEQ_CSCP_LOG_OPERATION_ID" incrementBy="1" minValue="1" maxValue="99999999999" startValue="1"/>
+    </changeSet>
+    <changeSet id="LOG-20190128-002" author="ctsi">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="cscp_log_operation"/>
+            </not>
+        </preConditions>
+        <createTable tableName="cscp_log_operation" remarks="操作日志">
+            <column name="id" type="${intType}" autoIncrement="${autoIncrement}"  remarks="唯一标识">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="userid" type="${intType}" remarks="用户id" >
+                <constraints nullable="true" />
+            </column>
+            <column name="username" type="varchar(50)" remarks="用户名" >
+                <constraints nullable="true" />
+            </column>
+            <column name="uri" type="varchar(255)"  remarks="操作url">
+                <constraints nullable="true" />
+            </column>
+            <column name="ip" type="varchar(50)"  remarks="用户ip">
+                <constraints nullable="true" />
+            </column>
+            <column name="params" type="varchar(500)"  remarks="参数">
+                <constraints nullable="true" />
+            </column>
+            <column name="method" type="varchar(255)"  remarks="请求方法">
+                <constraints nullable="true" />
+            </column>
+            <column name="message" type="varchar(255)"  remarks="信息">
+                <constraints nullable="true" />
+            </column>
+            <column name="status" type="char(10)" remarks="操作状态" >
+                <constraints nullable="true" />
+            </column>
+            <column name="time" type="datetime"  remarks="操作时间">
+                <constraints nullable="true" />
+            </column>
+            <column name="error" type="varchar(1000)"  remarks="操作异常信息">
+                <constraints nullable="true" />
+            </column>
+        </createTable>
+        <sql dbms="mysql" >ALTER TABLE `cscp_log_operation` CONVERT TO CHARACTER SET UTF8;</sql>
+        <rollback>
+            <dropTable tableName="cscp_log_operation"/>
+        </rollback>
+    </changeSet>
+
+
+
+
+
+
+</databaseChangeLog>

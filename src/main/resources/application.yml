@@ -1,0 +1,40 @@
+
+server:
+    #端口号
+    port: 9000
+spring:
+    main:
+        allow-circular-references: true
+    mvc:
+        pathmatch:
+            matching-strategy: ant_path_matcher
+    application:
+        name: biyi
+    profiles:
+         active: dev
+knife4j:
+    #markdowns: classpath:markdown/*
+    basic:
+        enable: false
+        username: zhangsan
+        password: 123456
+
+
+logging:
+    #日志级别
+    path: "logs"
+    file:
+        max-history: 50
+        max-size: 100MB
+    pattern:
+        file: '%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50}.%M-%L - %msg%n'
+        console: '%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50}.%M-%L - %msg%n'
+mybatis-plus:
+    mapper-locations: classpath:mapper/**/*.xml   # 配置mapper的扫描，找到所有的mapper.xml映射文件
+    type-aliases-package: com.pubinfo.resource.domain  # 注意：对应实体类的路径
+    #type-handlers-package: com.pubinfo.passbook.common.handler
+    #开启驼峰转换
+    configuration:
+        mapUnderscoreToCamelCase: true
+        #log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+        log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

@@ -1,0 +1,72 @@
+
+logging:
+  #日志级别
+  level:
+    ROOT: info
+  file:
+    max-history: 50
+    max-size: 100MB
+  pattern:
+    file: '%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50}.%M-%L - %msg%n'
+    console: '%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50}.%M-%L - %msg%n'
+
+kube:
+  debugger: true
+  manyEnv: false
+spring:
+  #激活一个或多个配置
+  profiles:
+    include: swagger
+  jackson:
+    #格式化输出
+    serialization.indent_output: true
+    #时区
+    time-zone: GMT+8
+  jpa:
+    hibername:
+      #使用@Entity时，控制表结构生成行为，none是什么都不做
+      ddl-auto: none
+
+  liquibase:
+    #数据库初始化开关
+    enabled: true
+    #初始化脚本路径
+    change-log: classpath:/db/changelog/master.xml
+  datasource:
+
+    #数据库驱动
+    driverClassName: com.mysql.cj.jdbc.Driver
+    #数据库连接
+    url: jdbc:mysql://localhost:3306/resource_manage?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&nullCatalogMeansCurrent=true
+    #数据库的名称,biyi-form组件使用
+    db-name: resource_manage
+    #数据库连接池
+    type: com.zaxxer.hikari.HikariDataSource
+    #数据库用户名
+    username: root
+#    schema: classpath:/db/scheme-mysql.sql
+#    data: classpath:/db/data-mysql.sql
+    #数据库密码
+    password: zea0i+6hx7Dp
+    hikari:
+      #最大连接池数
+      maximumPoolSize: 20
+    #是否自定义配置
+    cachePrepStmts: true
+    #连接池大小
+    prepStmtCacheSize: 250
+    #单条语句最大长度
+    prepStmtCacheSqlLimit: 2048
+    #新版本MySQL支持服务器端准备，是否开启
+    useServerPrepStmts: true
+
+#mybatis配置
+mybatis:
+  configLocation: classpath:/mybatis-config.xml
+
+pagehelper:
+  #分页设置
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  pageSizeZero: true

@@ -1,0 +1,675 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <property name="autoIncrement" value="false" dbms="oracle"/>
+    <property name="autoIncrement" value="true" dbms="mysql,mssql,h2,postgresql,sybase"/>
+    <property name="intType" value="bigint" dbms="postgresql"/>
+    <property name="intType" value="int(11)" dbms="mysql,mssql,h2,oracle,sybase"/>
+
+    <changeSet id="DIC-ORACLE-20190128-001" dbms="oracle" author="ctsi">
+        <createSequence sequenceName="SEQ_CSCP_DIC_ID" incrementBy="1" minValue="1" maxValue="99999999999" startValue="1"/>
+    </changeSet>
+    <changeSet id="DIC-20190128-001" author="ctsi">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="cscp_dic"/>
+            </not>
+        </preConditions>
+        <createTable tableName="cscp_dic" remarks="字典表">
+            <column name="id" type="${intType}" autoIncrement="${autoIncrement}" remarks="唯一标识">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="dic_type" type="${intType}" remarks="字典类型" >
+                <constraints nullable="true" />
+            </column>
+            <column name="dic_value" type="${intType}"  remarks="字典value">
+                <constraints nullable="true" />
+            </column>
+            <column name="dic_display" type="varchar(50)" remarks="字典中文名称">
+                <constraints nullable="true" />
+            </column>
+            <column name="dic_group_id" type="${intType}"  remarks="字典组织id">
+                <constraints nullable="true" />
+            </column>
+            <column name="dic_parent_id" type="${intType}"  remarks="字典父id">
+                <constraints nullable="true" />
+            </column>
+            <column name="dic_order" type="${intType}" remarks="字典排序" >
+                <constraints nullable="true" />
+            </column>
+            <column name="dic_icon" type="varchar(50)"  remarks="icon">
+                <constraints nullable="true" />
+            </column>
+            <column name="dic_check_radio" type="varchar(10)"  remarks="选择框">
+                <constraints nullable="true" />
+            </column>
+        </createTable>
+        <sql dbms="mysql" >ALTER TABLE `cscp_dic` CONVERT TO CHARACTER SET UTF8;</sql>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="1"/>
+            <column name="dic_type" value="1"/>
+            <column name="dic_value" value="1"/>
+            <column name="dic_display" value="是"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="1"/>
+            <column name="dic_icon" value="NULL"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="2"/>
+            <column name="dic_type" value="1"/>
+            <column name="dic_value" value="2"/>
+            <column name="dic_display" value="否"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="2"/>
+            <column name="dic_icon" value="NULL"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="3"/>
+            <column name="dic_type" value="2"/>
+            <column name="dic_value" value="1"/>
+            <column name="dic_display" value="多选"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="1"/>
+            <column name="dic_icon" value="NULL"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="4"/>
+            <column name="dic_type" value="2"/>
+            <column name="dic_value" value="2"/>
+            <column name="dic_display" value="单选"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="2"/>
+            <column name="dic_icon" value="NULL"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="5"/>
+            <column name="dic_type" value="3"/>
+            <column name="dic_value" value="1"/>
+            <column name="dic_display" value="文本框"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="1"/>
+            <column name="dic_icon" value="NULL"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="6"/>
+            <column name="dic_type" value="3"/>
+            <column name="dic_value" value="2"/>
+            <column name="dic_display" value="下拉框"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="2"/>
+            <column name="dic_icon" value="NULL"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="7"/>
+            <column name="dic_type" value="3"/>
+            <column name="dic_value" value="3"/>
+            <column name="dic_display" value="日期选择"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="3"/>
+            <column name="dic_icon" value="NULL"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="8"/>
+            <column name="dic_type" value="3"/>
+            <column name="dic_value" value="4"/>
+            <column name="dic_display" value="日期范围选择"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="4"/>
+            <column name="dic_icon" value="NULL"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="9"/>
+            <column name="dic_type" value="3"/>
+            <column name="dic_value" value="5"/>
+            <column name="dic_display" value="打分（星形）"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="5"/>
+            <column name="dic_icon" value="NULL"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="10"/>
+            <column name="dic_type" value="3"/>
+            <column name="dic_value" value="6"/>
+            <column name="dic_display" value="下拉多选"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="6"/>
+            <column name="dic_icon" value="NULL"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="11"/>
+            <column name="dic_type" value="3"/>
+            <column name="dic_value" value="7"/>
+            <column name="dic_display" value="勾选多选"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="7"/>
+            <column name="dic_icon" value="NULL"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="12"/>
+            <column name="dic_type" value="3"/>
+            <column name="dic_value" value="8"/>
+            <column name="dic_display" value="勾选单选"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="8"/>
+            <column name="dic_icon" value="NULL"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="13"/>
+            <column name="dic_type" value="3"/>
+            <column name="dic_value" value="9"/>
+            <column name="dic_display" value="单选toggle"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="9"/>
+            <column name="dic_icon" value="NULL"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="14"/>
+            <column name="dic_type" value="3"/>
+            <column name="dic_value" value="10"/>
+            <column name="dic_display" value="大文本框"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="10"/>
+            <column name="dic_icon" value="NULL"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="15"/>
+            <column name="dic_type" value="3"/>
+            <column name="dic_value" value="11"/>
+            <column name="dic_display" value="时间选择"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="11"/>
+            <column name="dic_icon" value="NULL"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="16"/>
+            <column name="dic_type" value="3"/>
+            <column name="dic_value" value="12"/>
+            <column name="dic_display" value="文件上传"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="12"/>
+            <column name="dic_icon" value="NULL"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="17"/>
+            <column name="dic_type" value="3"/>
+            <column name="dic_value" value="13"/>
+            <column name="dic_display" value="打分（奖杯）"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="13"/>
+            <column name="dic_icon" value="NULL"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="18"/>
+            <column name="dic_type" value="3"/>
+            <column name="dic_value" value="14"/>
+            <column name="dic_display" value="Email"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="14"/>
+            <column name="dic_icon" value="NULL"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="19"/>
+            <column name="dic_type" value="3"/>
+            <column name="dic_value" value="15"/>
+            <column name="dic_display" value="数字-整数"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="15"/>
+            <column name="dic_icon" value="NULL"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="20"/>
+            <column name="dic_type" value="3"/>
+            <column name="dic_value" value="16"/>
+            <column name="dic_display" value="数字-小数"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="16"/>
+            <column name="dic_icon" value="NULL"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="21"/>
+            <column name="dic_type" value="3"/>
+            <column name="dic_value" value="17"/>
+            <column name="dic_display" value="电话"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="17"/>
+            <column name="dic_icon" value="NULL"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="22"/>
+            <column name="dic_type" value="3"/>
+            <column name="dic_value" value="18"/>
+            <column name="dic_display" value="时间选择-圆形"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="18"/>
+            <column name="dic_icon" value="NULL"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="23"/>
+            <column name="dic_type" value="3"/>
+            <column name="dic_value" value="19"/>
+            <column name="dic_display" value="数字-spinner"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="19"/>
+            <column name="dic_icon" value="NULL"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="24"/>
+            <column name="dic_type" value="3"/>
+            <column name="dic_value" value="20"/>
+            <column name="dic_display" value="数字-Knob"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="20"/>
+            <column name="dic_icon" value="NULL"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="25"/>
+            <column name="dic_type" value="3"/>
+            <column name="dic_value" value="21"/>
+            <column name="dic_display" value="Phone-mask"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="21"/>
+            <column name="dic_icon" value="NULL"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="26"/>
+            <column name="dic_type" value="3"/>
+            <column name="dic_value" value="22"/>
+            <column name="dic_display" value="信用卡-mask"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="22"/>
+            <column name="dic_icon" value="NULL"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="27"/>
+            <column name="dic_type" value="3"/>
+            <column name="dic_value" value="23"/>
+            <column name="dic_display" value="Tax-mask"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="23"/>
+            <column name="dic_icon" value="NULL"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="28"/>
+            <column name="dic_type" value="3"/>
+            <column name="dic_value" value="24"/>
+            <column name="dic_display" value="SN-mask"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="24"/>
+            <column name="dic_icon" value="NULL"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="29"/>
+            <column name="dic_type" value="3"/>
+            <column name="dic_value" value="25"/>
+            <column name="dic_display" value="Silder"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="25"/>
+            <column name="dic_icon" value="NULL"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="30"/>
+            <column name="dic_type" value="3"/>
+            <column name="dic_value" value="26"/>
+            <column name="dic_display" value="Silder-vertical"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="26"/>
+            <column name="dic_icon" value="NULL"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="31"/>
+            <column name="dic_type" value="4"/>
+            <column name="dic_value" value="1"/>
+            <column name="dic_display" value="女"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="1"/>
+            <column name="dic_icon" value="fa fa-female"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="32"/>
+            <column name="dic_type" value="4"/>
+            <column name="dic_value" value="2"/>
+            <column name="dic_display" value="男"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="2"/>
+            <column name="dic_icon" value="fa fa-male"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="33"/>
+            <column name="dic_type" value="5"/>
+            <column name="dic_value" value="1"/>
+            <column name="dic_display" value="高"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="1"/>
+            <column name="dic_icon" value="NULL"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="34"/>
+            <column name="dic_type" value="5"/>
+            <column name="dic_value" value="2"/>
+            <column name="dic_display" value="中"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="2"/>
+            <column name="dic_icon" value="NULL"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="35"/>
+            <column name="dic_type" value="5"/>
+            <column name="dic_value" value="3"/>
+            <column name="dic_display" value="低"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="3"/>
+            <column name="dic_icon" value="NULL"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="36"/>
+            <column name="dic_type" value="6"/>
+            <column name="dic_value" value="1"/>
+            <column name="dic_display" value="收集需求"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="1"/>
+            <column name="dic_icon" value="NULL"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="37"/>
+            <column name="dic_type" value="6"/>
+            <column name="dic_value" value="2"/>
+            <column name="dic_display" value="需求分析"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="2"/>
+            <column name="dic_icon" value=""/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="38"/>
+            <column name="dic_type" value="6"/>
+            <column name="dic_value" value="3"/>
+            <column name="dic_display" value="纳入需求管理"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="3"/>
+            <column name="dic_icon" value="NULL"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="39"/>
+            <column name="dic_type" value="6"/>
+            <column name="dic_value" value="4"/>
+            <column name="dic_display" value="进入开发"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="4"/>
+            <column name="dic_icon" value="NULL"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="40"/>
+            <column name="dic_type" value="6"/>
+            <column name="dic_value" value="5"/>
+            <column name="dic_display" value="测试完成"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="5"/>
+            <column name="dic_icon" value="NULL"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="41"/>
+            <column name="dic_type" value="6"/>
+            <column name="dic_value" value="6"/>
+            <column name="dic_display" value="上线"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="6"/>
+            <column name="dic_icon" value="NULL"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="42"/>
+            <column name="dic_type" value="6"/>
+            <column name="dic_value" value="7"/>
+            <column name="dic_display" value="已经回复"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="7"/>
+            <column name="dic_icon" value="NULL"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="43"/>
+            <column name="dic_type" value="6"/>
+            <column name="dic_value" value="8"/>
+            <column name="dic_display" value="更新解释"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="8"/>
+            <column name="dic_icon" value="NULL"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="44"/>
+            <column name="dic_type" value="7"/>
+            <column name="dic_value" value="1"/>
+            <column name="dic_display" value="大"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="1"/>
+            <column name="dic_icon" value="NULL"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="45"/>
+            <column name="dic_type" value="7"/>
+            <column name="dic_value" value="2"/>
+            <column name="dic_display" value="小"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="2"/>
+            <column name="dic_icon" value="NULL"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="46"/>
+            <column name="dic_type" value="10"/>
+            <column name="dic_value" value="100001"/>
+            <column name="dic_display" value="平台管理员"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="1"/>
+            <column name="dic_icon" value="NULL"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="47"/>
+            <column name="dic_type" value="10"/>
+            <column name="dic_value" value="100002"/>
+            <column name="dic_display" value="平台操作员"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="2"/>
+            <column name="dic_icon" value="NULL"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="48"/>
+            <column name="dic_type" value="10"/>
+            <column name="dic_value" value="100003"/>
+            <column name="dic_display" value="平台其他人员"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="3"/>
+            <column name="dic_icon" value="NULL"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="49"/>
+            <column name="dic_type" value="10"/>
+            <column name="dic_value" value="200001"/>
+            <column name="dic_display" value="外部企业信息填报人员"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="4"/>
+            <column name="dic_icon" value="NULL"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="50"/>
+            <column name="dic_type" value="10"/>
+            <column name="dic_value" value="200002"/>
+            <column name="dic_display" value="外部企业其他人员"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="5"/>
+            <column name="dic_icon" value="NULL"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="51"/>
+            <column name="dic_type" value="11"/>
+            <column name="dic_value" value="1"/>
+            <column name="dic_display" value="Always"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="1"/>
+            <column name="dic_icon" value="NULL"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="52"/>
+            <column name="dic_type" value="11"/>
+            <column name="dic_value" value="2"/>
+            <column name="dic_display" value="IfNotPresent"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="2"/>
+            <column name="dic_icon" value="NULL"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="53"/>
+            <column name="dic_type" value="11"/>
+            <column name="dic_value" value="3"/>
+            <column name="dic_display" value="Never"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="3"/>
+            <column name="dic_icon" value="NULL"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="54"/>
+            <column name="dic_type" value="12"/>
+            <column name="dic_value" value="1"/>
+            <column name="dic_display" value="5.7.14"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="1"/>
+            <column name="dic_icon" value="NULL"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="55"/>
+            <column name="dic_type" value="12"/>
+            <column name="dic_value" value="2"/>
+            <column name="dic_display" value="5.7.15"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="2"/>
+            <column name="dic_icon" value="NULL"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_dic">
+            <column name="id" value="56"/>
+            <column name="dic_type" value="13"/>
+            <column name="dic_value" value="1"/>
+            <column name="dic_display" value="ceph-rbd"/>
+            <column name="dic_group_id" value="NULL"/>
+            <column name="dic_parent_id" value="NULL"/>
+            <column name="dic_order" value="1"/>
+            <column name="dic_icon" value="NULL"/>
+            <column name="dic_check_radio" value="NULL"/>
+        </ext:insert>
+
+
+        <rollback>
+            <dropTable tableName="cscp_dic"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

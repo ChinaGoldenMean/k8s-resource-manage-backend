@@ -1,0 +1,35 @@
+
+logging:
+   #日志级别
+   level:
+      ROOT: debug
+kube:
+   debugger: true
+   manyEnv: false
+spring:
+   #激活一个或多个配置
+   jackson:
+      #格式化输出
+      serialization.indent_output: true
+      #时区
+      time-zone: GMT+8
+   liquibase:
+      #数据库初始化开关
+      enabled: true
+      #初始化脚本路径
+      change-log: classpath:/db/changelog/master.xml
+   datasource:
+      dynamic:
+         datasource:
+            master:
+               username: root
+               password: zea0i+6hx7Dp
+               driver-class-name: com.mysql.cj.jdbc.Driver
+               url: jdbc:mysql://localhost:3306/resource_manage?characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true
+         primary: master #设置默认的数据源或者数据源组,默认值即为master
+         strict: false #设置严格模式,默认false不启动. 启动后在未匹配到指定数据源时候会抛出异常,不启动则使用默认数据源.
+
+
+
+
+

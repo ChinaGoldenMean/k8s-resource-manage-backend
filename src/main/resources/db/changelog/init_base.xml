@@ -1,0 +1,866 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <property name="autoIncrement" value="false" dbms="oracle"/>
+    <property name="autoIncrement" value="true" dbms="mysql,mssql,h2,postgresql,sybase"/>
+    <property name="intType" value="bigint" dbms="postgresql"/>
+    <property name="intType" value="int(11)" dbms="mysql,mssql,h2,oracle,sybase,maridb"/>
+
+    <changeSet id="BASE-ORACLE-20190128-001" dbms="oracle" author="ctsi">
+        <createSequence sequenceName="SEQ_CSCP_COLUMN_ID" incrementBy="1" minValue="1" maxValue="99999999999" startValue="1"/>
+    </changeSet>
+
+    <changeSet id="BASE-ORACLE-20190128-002" dbms="oracle" author="ctsi">
+        <createSequence sequenceName="SEQ_CSCP_MENUS_ID" incrementBy="1" minValue="1" maxValue="99999999999" startValue="2000"/>
+    </changeSet>
+
+    <changeSet id="BASE-20190128-002" author="ctsi" >
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="cscp_menus"/>
+            </not>
+        </preConditions>
+        <createTable tableName="cscp_menus" remarks="权限管理表">
+            <column name="id" type="${intType}" autoIncrement="${autoIncrement}" remarks="唯一标识">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(50)" remarks="菜单名称" >
+                <constraints nullable="true" />
+            </column>
+            <column name="icon" type="varchar(50)" remarks="icon" >
+                <constraints nullable="true" />
+            </column>
+            <column name="title" type="varchar(50)" remarks="中文描述" >
+                <constraints nullable="true" />
+            </column>
+            <column name="url" type="varchar(100)" remarks="url" >
+                <constraints nullable="true" />
+            </column>
+            <column name="http_method" type="varchar(10)"  remarks="操作方法">
+                <constraints nullable="true" />
+            </column>
+            <column name="component" type="varchar(100)" remarks="内容" >
+                <constraints nullable="true" />
+            </column>
+            <column name="parent_id" type="${intType}"  remarks="父id">
+                <constraints nullable="true" />
+            </column>
+            <column name="type" type="varchar(45)"  remarks="操作类型">
+                <constraints nullable="true" />
+            </column>
+            <column name="permission_code" type="varchar(50)"  remarks="权限编码" >
+                <constraints nullable="true" />
+            </column>
+            <column name="orderby" type="${intType}"  remarks="排序">
+                <constraints nullable="true" />
+            </column>
+        </createTable>
+        <sql dbms="mysql" >ALTER TABLE `cscp_menus` CONVERT TO CHARACTER SET UTF8;</sql>
+
+        <ext:insert identityInsertEnabled="true" tableName="cscp_menus">
+            <column name="id" value="1"/>
+            <column name="name" value="authority"/>
+            <column name="icon" value="md-key"/>
+            <column name="title" value="权限管理"/>
+            <column name="url" value="/authority"/>
+            <column name="http_method" value="*"/>
+            <column name="component" value="views/main/main.vue"/>
+            <column name="parent_id" value="0"/>
+            <column name="type" value="menu"/>
+            <column name="permission_code" value="cscp.authority"/>
+            <column name="orderby" value="1"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_menus">
+            <column name="id" value="200"/>
+            <column name="name" value="user-management"/>
+            <column name="icon" value="md-man"/>
+            <column name="title" value="用户管理"/>
+            <column name="url" value="userManagement"/>
+            <column name="http_method" value="*"/>
+            <column name="component" value=""/>
+            <column name="parent_id" value="1"/>
+            <column name="type" value="menu"/>
+            <column name="permission_code" value="cscp.user.query"/>
+            <column name="orderby" value="200"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_menus">
+            <column name="id" value="202"/>
+            <column name="name" value="user-add"/>
+            <column name="icon" value="ios-body"/>
+            <column name="title" value="新增用户"/>
+            <column name="url" value="userAdd"/>
+            <column name="http_method" value="POST"/>
+            <column name="component" value="NULL"/>
+            <column name="parent_id" value="200"/>
+            <column name="type" value="non-menu"/>
+            <column name="permission_code" value="cscp.user.add"/>
+            <column name="orderby" value="202"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_menus">
+            <column name="id" value="203"/>
+            <column name="name" value="user-del"/>
+            <column name="icon" value="ios-body"/>
+            <column name="title" value="删除用户"/>
+            <column name="url" value=""/>
+            <column name="http_method" value="DELETE"/>
+            <column name="component" value="NULL"/>
+            <column name="parent_id" value="200"/>
+            <column name="type" value="button"/>
+            <column name="permission_code" value="cscp.user.del"/>
+            <column name="orderby" value="203"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_menus">
+            <column name="id" value="204"/>
+            <column name="name" value="user-edit"/>
+            <column name="icon" value="ios-body"/>
+            <column name="title" value="编辑用户"/>
+            <column name="url" value="userEdit"/>
+            <column name="http_method" value="PUT"/>
+            <column name="component" value="NULL"/>
+            <column name="parent_id" value="200"/>
+            <column name="type" value="non-menu"/>
+            <column name="permission_code" value="cscp.user.edit"/>
+            <column name="orderby" value="204"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_menus">
+            <column name="id" value="300"/>
+            <column name="name" value="role-management"/>
+            <column name="icon" value="md-lock"/>
+            <column name="title" value="角色管理"/>
+            <column name="url" value="roleManagement"/>
+            <column name="http_method" value="*"/>
+            <column name="component" value="NULL"/>
+            <column name="parent_id" value="1"/>
+            <column name="type" value="menu"/>
+            <column name="permission_code" value="cscp.role"/>
+            <column name="orderby" value="300"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_menus">
+            <column name="id" value="302"/>
+            <column name="name" value="role-add"/>
+            <column name="icon" value="person-stalker"/>
+            <column name="title" value="增加角色"/>
+            <column name="url" value="roleAdd"/>
+            <column name="http_method" value="*"/>
+            <column name="component" value="NULL"/>
+            <column name="parent_id" value="300"/>
+            <column name="type" value="non-menu"/>
+            <column name="permission_code" value="cscp.role.add"/>
+            <column name="orderby" value="302"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_menus">
+            <column name="id" value="303"/>
+            <column name="name" value="role-del"/>
+            <column name="icon" value="person-stalker"/>
+            <column name="title" value="删除角色"/>
+            <column name="url" value=""/>
+            <column name="http_method" value="*"/>
+            <column name="component" value="NULL"/>
+            <column name="parent_id" value="300"/>
+            <column name="type" value="button"/>
+            <column name="permission_code" value="cscp.role.del"/>
+            <column name="orderby" value="303"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_menus">
+            <column name="id" value="304"/>
+            <column name="name" value="role-edit"/>
+            <column name="icon" value="person-stalker"/>
+            <column name="title" value="编辑角色"/>
+            <column name="url" value="roleEdit"/>
+            <column name="http_method" value="*"/>
+            <column name="component" value="NULL"/>
+            <column name="parent_id" value="300"/>
+            <column name="type" value="non-menu"/>
+            <column name="permission_code" value="cscp.role.edit"/>
+            <column name="orderby" value="304"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_menus">
+            <column name="id" value="400"/>
+            <column name="name" value="workgroup-management"/>
+            <column name="icon" value="md-contacts"/>
+            <column name="title" value="工作组管理"/>
+            <column name="url" value="workgroupManagement"/>
+            <column name="http_method" value="*"/>
+            <column name="component" value="NULL"/>
+            <column name="parent_id" value="1"/>
+            <column name="type" value="menu"/>
+            <column name="permission_code" value="cscp.wg"/>
+            <column name="orderby" value="400"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_menus">
+            <column name="id" value="402"/>
+            <column name="name" value="workgroup-add"/>
+            <column name="icon" value="ios-body"/>
+            <column name="title" value="增加工作组"/>
+            <column name="url" value="workgroupAdd"/>
+            <column name="http_method" value="POST"/>
+            <column name="component" value=""/>
+            <column name="parent_id" value="400"/>
+            <column name="type" value="non-menu"/>
+            <column name="permission_code" value="cscp.wg.add"/>
+            <column name="orderby" value="402"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_menus">
+            <column name="id" value="403"/>
+            <column name="name" value="workgroup-del"/>
+            <column name="icon" value="ios-body"/>
+            <column name="title" value="删除工作组"/>
+            <column name="url" value=""/>
+            <column name="http_method" value="DELETE"/>
+            <column name="component" value=""/>
+            <column name="parent_id" value="400"/>
+            <column name="type" value="button"/>
+            <column name="permission_code" value="cscp.wg.del"/>
+            <column name="orderby" value="403"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_menus">
+            <column name="id" value="404"/>
+            <column name="name" value="workgroup-edit"/>
+            <column name="icon" value="ios-body"/>
+            <column name="title" value="编辑工作组"/>
+            <column name="url" value="workgroupEdit"/>
+            <column name="http_method" value="PUT"/>
+            <column name="component" value=""/>
+            <column name="parent_id" value="400"/>
+            <column name="type" value="non-menu"/>
+            <column name="permission_code" value="cscp.wg.edit"/>
+            <column name="orderby" value="404"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_menus">
+            <column name="id" value="500"/>
+            <column name="name" value="organization-management"/>
+            <column name="icon" value="logo-buffer"/>
+            <column name="title" value="机构管理"/>
+            <column name="url" value="organizationManagement"/>
+            <column name="http_method" value="*"/>
+            <column name="component" value=""/>
+            <column name="parent_id" value="1"/>
+            <column name="type" value="menu"/>
+            <column name="permission_code" value="cscp.org.query"/>
+            <column name="orderby" value="500"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_menus">
+            <column name="id" value="502"/>
+            <column name="name" value="organization-edit"/>
+            <column name="icon" value="ios-body"/>
+            <column name="title" value="编辑机构"/>
+            <column name="url" value="organizationEdit"/>
+            <column name="http_method" value="*"/>
+            <column name="component" value=""/>
+            <column name="parent_id" value="500"/>
+            <column name="type" value="non-menu"/>
+            <column name="permission_code" value="cscp.org.edit"/>
+            <column name="orderby" value="502"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_menus">
+            <column name="id" value="1000"/>
+            <column name="name" value="logging-management"/>
+            <column name="icon" value="md-paper"/>
+            <column name="title" value="日志管理"/>
+            <column name="url" value="/logging"/>
+            <column name="http_method" value="*"/>
+            <column name="component" value="views/main/main.vue"/>
+            <column name="parent_id" value="0"/>
+            <column name="type" value="menu"/>
+            <column name="permission_code" value="cscp.logging"/>
+            <column name="orderby" value="1000"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_menus">
+            <column name="id" value="1001"/>
+            <column name="name" value="logging-login"/>
+            <column name="icon" value="md-copy"/>
+            <column name="title" value="登录日志"/>
+            <column name="url" value="login"/>
+            <column name="http_method" value="*"/>
+            <column name="component" value=""/>
+            <column name="parent_id" value="1000"/>
+            <column name="type" value="menu"/>
+            <column name="permission_code" value="cscp.logging.login"/>
+            <column name="orderby" value="1001"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_menus">
+            <column name="id" value="1002"/>
+            <column name="name" value="logging-operation"/>
+            <column name="icon" value="md-copy"/>
+            <column name="title" value="操作日志"/>
+            <column name="url" value="operation"/>
+            <column name="http_method" value="*"/>
+            <column name="component" value=""/>
+            <column name="parent_id" value="1000"/>
+            <column name="type" value="menu"/>
+            <column name="permission_code" value="cscp.logging.operation"/>
+            <column name="orderby" value="1002"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_menus">
+            <column name="id" value="1029"/>
+            <column name="name" value="non-mem-mian"/>
+            <column name="icon" value="md-key"/>
+            <column name="title" value="非菜单页面"/>
+            <column name="url" value="/non-mem-mian"/>
+            <column name="http_method" value="*"/>
+            <column name="component" value="views/main/main.vue"/>
+            <column name="parent_id" value="0"/>
+            <column name="type" value="non-menu"/>
+            <column name="permission_code" value="cscp.logging.operation"/>
+            <column name="orderby" value="1029"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_menus">
+            <column name="id" value="1031"/>
+            <column name="name" value="self-edit"/>
+            <column name="icon" value="md-key"/>
+            <column name="title" value="个人信息编辑"/>
+            <column name="url" value="/self-edit"/>
+            <column name="http_method" value="*"/>
+            <column name="component" value=""/>
+            <column name="parent_id" value="1029"/>
+            <column name="type" value="non-menu"/>
+            <column name="permission_code" value=""/>
+            <column name="orderby" value="1031"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_menus">
+            <column name="id" value="1032"/>
+            <column name="name" value="async-routes-config"/>
+            <column name="icon" value="md-transgender"/>
+            <column name="title" value="异步路由管理"/>
+            <column name="url" value="async-routes-config"/>
+            <column name="http_method" value="*"/>
+            <column name="component" value=""/>
+            <column name="parent_id" value="1"/>
+            <column name="type" value="menu"/>
+            <column name="permission_code" value="cscp.sr"/>
+            <column name="orderby" value="1032"/>
+        </ext:insert>
+
+
+        <rollback>
+            <dropTable tableName="cscp_menus"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="BASE-ORACLE-20190128-003" dbms="oracle" author="ctsi">
+        <createSequence sequenceName="SEQ_CSCP_ORG_ID" incrementBy="1" minValue="1" maxValue="99999999999" startValue="1"/>
+    </changeSet>
+
+    <changeSet id="BASE-20190128-003" author="ctsi" runOnChange="true">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="cscp_org"/>
+            </not>
+        </preConditions>
+        <createTable tableName="cscp_org" remarks="机构管理">
+            <column name="id" type="${intType}" autoIncrement="${autoIncrement}"  remarks="唯一标识">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="org_name" type="varchar(50)" remarks="组织名称" >
+                <constraints nullable="false" />
+            </column>
+            <column name="description" type="varchar(200)" remarks="描述" >
+                <constraints nullable="true" />
+            </column>
+            <column name="parent_id" type="${intType}"  remarks="父id">
+                <constraints nullable="true" />
+            </column>
+            <column name="orderby" type="${intType}"  remarks="顺序">
+                <constraints nullable="true" />
+            </column>
+        </createTable>
+        <sql dbms="mysql" >ALTER TABLE `cscp_org` CONVERT TO CHARACTER SET UTF8;</sql>
+
+        <ext:insert identityInsertEnabled="true" tableName="cscp_org">
+            <column name="id" value="1"/>
+            <column name="org_name" value="机构"/>
+            <column name="parent_id" value="1"/>
+            <column name="orderby" value="1"/>
+        </ext:insert>
+
+        <rollback>
+            <dropTable tableName="cscp_org"/>
+        </rollback>
+    </changeSet>
+
+
+    <changeSet id="BASE-ORACLE-20190128-005" dbms="oracle" author="ctsi">
+        <createSequence sequenceName="SEQ_CSCP_ROLES_ID" incrementBy="1" minValue="1" maxValue="99999999999" startValue="10"/>
+    </changeSet>
+
+    <changeSet id="BASE-20190128-005" author="ctsi" >
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="cscp_roles"/>
+            </not>
+        </preConditions>
+        <createTable tableName="cscp_roles" remarks="角色表">
+            <column name="id" type="${intType}" autoIncrement="${autoIncrement}" remarks="唯一标识">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(50)"  remarks="角色名">
+                <constraints nullable="true" />
+            </column>
+            <column name="role_extent" type="varchar(50)"  remarks="角色范围">
+                <constraints nullable="true" />
+            </column>
+            <column name="parent_id" type="${intType}"  remarks="父id">
+                <constraints nullable="true" />
+            </column>
+            <column name="icon" type="varchar(45)"  >
+                <constraints nullable="true" />
+            </column>
+        </createTable>
+        <sql dbms="mysql" >ALTER TABLE `cscp_roles` CONVERT TO CHARACTER SET UTF8;</sql>
+
+        <ext:insert identityInsertEnabled="true" tableName="cscp_roles">
+            <column name="id" value="1"/>
+            <column name="name" value="admin"/>
+            <column name="icon" value="md-key"/>
+        </ext:insert>
+
+        <rollback>
+            <dropTable tableName="cscp_roles"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="BASE-ORACLE-20190128-006" dbms="oracle" author="ctsi">
+        <createSequence sequenceName="SEQ_CSCP_USER_ID" incrementBy="1" minValue="1" maxValue="99999999999" startValue="10"/>
+    </changeSet>
+    <changeSet id="BASE-20190128-006" author="ctsi" >
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="cscp_user"/>
+            </not>
+        </preConditions>
+        <createTable tableName="cscp_user" remarks="用户表">
+            <column name="id" type="${intType}" autoIncrement="${autoIncrement}" remarks="唯一标识">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="username" type="varchar(45)"  remarks="用户名">
+                <constraints nullable="true" />
+            </column>
+            <column  name="PASSWORD" type="varchar(100)" remarks="密码" >
+                <constraints nullable="true" />
+            </column>
+        </createTable>
+        <sql dbms="mysql" >ALTER TABLE `cscp_user` CONVERT TO CHARACTER SET UTF8;</sql>
+
+        <ext:insert identityInsertEnabled="true" tableName="cscp_user">
+            <column name="id" value="1"/>
+            <column name="username" value="admin"/>
+            <column name="PASSWORD" value="$2a$10$DSZ14QjgFspWp6zST7l9j.b/MaymuXirfw2sOFKVZ2NaeEbXOzn5y"/>
+        </ext:insert>
+        <rollback>
+            <dropTable tableName="cscp_user"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="BASE-ORACLE-20190128-007" dbms="oracle" author="ctsi">
+        <createSequence sequenceName="SEQ_CSCP_USER_DETAIL_ID" incrementBy="1" minValue="1" maxValue="99999999999" startValue="1"/>
+    </changeSet>
+    <changeSet id="BASE-20190128-007" author="ctsi" >
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="cscp_user_detail"/>
+            </not>
+        </preConditions>
+        <createTable tableName="cscp_user_detail" remarks="用户详细信息">
+            <column name="id" type="${intType}" autoIncrement="${autoIncrement}" remarks="唯一标识">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="user_id" type="${intType}"  remarks="用户id">
+                <constraints nullable="true" />
+            </column>
+            <column name="family_name" type="varchar(45)" remarks="姓" >
+                <constraints nullable="true" />
+            </column>
+            <column name="name" type="varchar(45)"  remarks="名">
+                <constraints nullable="true" />
+            </column>
+            <column name="mobile" type="varchar(45)"  remarks="电话">
+                <constraints nullable="true" />
+            </column>
+            <column name="email" type="varchar(45)"  remarks="邮箱">
+                <constraints nullable="true" />
+            </column>
+            <column name="img_path" type="longtext"  remarks="头像">
+                <constraints nullable="true" />
+            </column>
+            <column name="last_login" type="datetime" remarks="最后一次登陆时间" >
+                <constraints nullable="true" />
+            </column>
+            <column name="disc_title" type="varchar(45)"  remarks="标题" >
+                <constraints nullable="true" />
+            </column>
+            <column name="disc_detail" type="varchar(500)" remarks="详细信息" >
+                <constraints nullable="true" />
+            </column>
+            <column name="register_time" type="datetime" remarks="注册时间" >
+                <constraints nullable="true" />
+            </column>
+        </createTable>
+        <sql dbms="mysql" >ALTER TABLE `cscp_user_detail` CONVERT TO CHARACTER SET UTF8;</sql>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_user_detail">
+            <column name="id" value="1"/>
+            <column name="user_id" value="1"/>
+            <column name="name" value="biyi"/>
+            <column name="family_name" value="Admin"/>
+        </ext:insert>
+        <rollback>
+            <dropTable tableName="cscp_user_detail"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="BASE-20190128-008" author="ctsi" >
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="cscp_user_detail_extend"/>
+            </not>
+        </preConditions>
+        <createTable tableName="cscp_user_detail_extend" remarks="用户详细信息扩展">
+            <column name="id" type="${intType}" autoIncrement="${autoIncrement}" remarks="唯一标识">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="user_id" type="${intType}"  remarks="用户ID">
+                <constraints nullable="true" />
+            </column>
+            <column name="extend_title" type="varchar(45)"  remarks="扩展标题">
+                <constraints nullable="true" />
+            </column>
+            <column name="extend_content" type="varchar(45)"  remarks="扩展内容">
+                <constraints nullable="true" />
+            </column>
+        </createTable>
+        <sql dbms="mysql" >ALTER TABLE `cscp_user_detail_extend` CONVERT TO CHARACTER SET UTF8;</sql>
+        <rollback>
+            <dropTable tableName="cscp_user_detail_extend"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="BASE-ORACLE-20190128-009" dbms="oracle" author="ctsi">
+        <createSequence sequenceName="SEQ_CSCP_USER_ORG_ID" incrementBy="1" minValue="1" maxValue="99999999999" startValue="1"/>
+    </changeSet>
+    <changeSet id="BASE-20190128-009" author="ctsi" >
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="cscp_user_org"/>
+            </not>
+        </preConditions>
+        <createTable tableName="cscp_user_org" remarks="用户机构表">
+            <column name="id" type="${intType}" autoIncrement="${autoIncrement}" remarks="唯一标识">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="user_id" type="${intType}" remarks="用户id" >
+                <constraints nullable="false" />
+            </column>
+            <column name="org_id" type="${intType}"  remarks="机构id">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <sql dbms="mysql" >ALTER TABLE `cscp_user_org` CONVERT TO CHARACTER SET UTF8;</sql>
+        <rollback>
+            <dropTable tableName="cscp_user_org"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="BASE-ORACLE-20190128-010" dbms="oracle" author="ctsi">
+        <createSequence sequenceName="SEQ_CSCP_USER_ROLE_ID" incrementBy="1" minValue="1" maxValue="99999999999" startValue="10"/>
+    </changeSet>
+    <changeSet id="BASE-20190128-010" author="ctsi" >
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="cscp_user_role"/>
+            </not>
+        </preConditions>
+        <createTable tableName="cscp_user_role" remarks="用户权限表">
+            <column name="id" type="${intType}" autoIncrement="${autoIncrement}" remarks="唯一标识">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="user_id" type="${intType}"  remarks="用户id">
+                <constraints nullable="false" />
+            </column>
+            <column name="role_id" type="${intType}" remarks="角色id" >
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <sql dbms="mysql" >ALTER TABLE `cscp_user_role` CONVERT TO CHARACTER SET UTF8;</sql>
+
+        <ext:insert identityInsertEnabled="true" tableName="cscp_user_role">
+            <column name="id" value="1"/>
+            <column name="user_id" value="1"/>
+            <column name="role_id" value="1"/>
+        </ext:insert>
+
+        <rollback>
+            <dropTable tableName="cscp_user_role"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="BASE-ORACLE-20190128-011" dbms="oracle" author="ctsi">
+        <createSequence sequenceName="SEQ_CSCP_USER_WORK_GROUP_ID" incrementBy="1" minValue="1" maxValue="99999999999" startValue="1"/>
+    </changeSet>
+    <changeSet id="BASE-20190128-011" author="ctsi" >
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="cscp_user_work_group"/>
+            </not>
+        </preConditions>
+        <createTable tableName="cscp_user_work_group" remarks="用户组织表">
+            <column name="id" type="${intType}" autoIncrement="${autoIncrement}" remarks="唯一标识" >
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="user_id" type="${intType}"  remarks="用户id">
+                <constraints nullable="false" />
+            </column>
+            <column name="group_id" type="${intType}" remarks="groupid" >
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <sql dbms="mysql" >ALTER TABLE `cscp_user_work_group` CONVERT TO CHARACTER SET UTF8;</sql>
+
+        <rollback>
+            <dropTable tableName="cscp_user_work_group"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="BASE-ORACLE-20190128-012" dbms="oracle" author="ctsi">
+        <createSequence sequenceName="SEQ_CSCP_WORK_GROUP_ID" incrementBy="1" minValue="1" maxValue="99999999999" startValue="1"/>
+    </changeSet>
+    <changeSet id="BASE-20190128-012" author="ctsi" >
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="cscp_work_group"/>
+            </not>
+        </preConditions>
+        <createTable tableName="cscp_work_group" remarks="组织表">
+            <column name="id" type="${intType}" autoIncrement="${autoIncrement}" remarks="唯一标识">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="group_name" type="varchar(50)" remarks="小组名" >
+                <constraints nullable="false" />
+            </column>
+            <column name="description" type="varchar(200)"  remarks="描述">
+                <constraints nullable="true" />
+            </column>
+            <column name="org_id" type="${intType}" remarks="机构id" >
+                <constraints nullable="true" />
+            </column>
+        </createTable>
+        <sql dbms="mysql" >ALTER TABLE `cscp_work_group` CONVERT TO CHARACTER SET UTF8;</sql>
+
+        <rollback>
+            <dropTable tableName="cscp_work_group"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="BASE-ORACLE-20190128-013" dbms="oracle" author="ctsi">
+        <createSequence sequenceName="SEQ_CSCP_WORK_GROUP_ORG_ID" incrementBy="1" minValue="1" maxValue="99999999999" startValue="1"/>
+    </changeSet>
+    <changeSet id="BASE-20190128-013" author="ctsi" >
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="cscp_work_group_org"/>
+            </not>
+        </preConditions>
+        <createTable tableName="cscp_work_group_org" remarks="组织机构表">
+            <column name="id" type="${intType}" autoIncrement="${autoIncrement}" remarks="唯一标识">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="group_id" type="${intType}" remarks="小组id" >
+                <constraints nullable="false" />
+            </column>
+            <column name="org_id" type="${intType}"  remarks="组织id">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <sql dbms="mysql" >ALTER TABLE `cscp_work_group_org` CONVERT TO CHARACTER SET UTF8;</sql>
+        <rollback>
+            <dropTable tableName="cscp_work_group_org"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="BASE-ORACLE-20190128-015" dbms="oracle" author="ctsi">
+        <createSequence sequenceName="SEQ_CSCP_ROLE_MENU_ID" incrementBy="1" minValue="1" maxValue="99999999999" startValue="50"/>
+    </changeSet>
+    <changeSet id="BASE-20190128-015" author="ctsi" >
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="cscp_role_menu"/>
+            </not>
+        </preConditions>
+        <createTable tableName="cscp_role_menu" remarks="角色权限表">
+            <column name="id" type="${intType}" autoIncrement="${autoIncrement}" remarks="唯一标识">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="role_id" type="${intType}" remarks="角色id" >
+                <constraints nullable="true" />
+            </column>
+            <column name="menu_id" type="${intType}"  remarks="权限id">
+                <constraints nullable="true" />
+            </column>
+        </createTable>
+        <sql dbms="mysql" >ALTER TABLE `cscp_role_menu` CONVERT TO CHARACTER SET UTF8;</sql>
+
+        <ext:insert identityInsertEnabled="true" tableName="cscp_role_menu">
+            <column name="id" value="1"/>
+            <column name="role_id" value="1"/>
+            <column name="menu_id" value="1"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true"  tableName="cscp_role_menu">
+            <column name="id" value="2"/>
+            <column name="role_id" value="1"/>
+            <column name="menu_id" value="200"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_role_menu">
+            <column name="id" value="3"/>
+            <column name="role_id" value="1"/>
+            <column name="menu_id" value="201"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_role_menu">
+            <column name="id" value="4"/>
+            <column name="role_id" value="1"/>
+            <column name="menu_id" value="202"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_role_menu">
+            <column name="id" value="5"/>
+            <column name="role_id" value="1"/>
+            <column name="menu_id" value="203"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_role_menu">
+            <column name="id" value="6"/>
+            <column name="role_id" value="1"/>
+            <column name="menu_id" value="204"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_role_menu">
+            <column name="id" value="7"/>
+            <column name="role_id" value="1"/>
+            <column name="menu_id" value="300"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_role_menu">
+            <column name="id" value="8"/>
+            <column name="role_id" value="1"/>
+            <column name="menu_id" value="301"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_role_menu">
+            <column name="id" value="9"/>
+            <column name="role_id" value="1"/>
+            <column name="menu_id" value="302"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_role_menu">
+            <column name="id" value="10"/>
+            <column name="role_id" value="1"/>
+            <column name="menu_id" value="303"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_role_menu">
+            <column name="id" value="11"/>
+            <column name="role_id" value="1"/>
+            <column name="menu_id" value="304"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_role_menu">
+            <column name="id" value="12"/>
+            <column name="role_id" value="1"/>
+            <column name="menu_id" value="400"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_role_menu">
+            <column name="id" value="13"/>
+            <column name="role_id" value="1"/>
+            <column name="menu_id" value="401"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_role_menu">
+            <column name="id" value="14"/>
+            <column name="role_id" value="1"/>
+            <column name="menu_id" value="402"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_role_menu">
+            <column name="id" value="15"/>
+            <column name="role_id" value="1"/>
+            <column name="menu_id" value="403"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_role_menu">
+            <column name="id" value="16"/>
+            <column name="role_id" value="1"/>
+            <column name="menu_id" value="404"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_role_menu">
+            <column name="id" value="17"/>
+            <column name="role_id" value="1"/>
+            <column name="menu_id" value="500"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_role_menu">
+            <column name="id" value="18"/>
+            <column name="role_id" value="1"/>
+            <column name="menu_id" value="501"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_role_menu">
+            <column name="id" value="19"/>
+            <column name="role_id" value="1"/>
+            <column name="menu_id" value="502"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_role_menu">
+            <column name="id" value="20"/>
+            <column name="role_id" value="1"/>
+            <column name="menu_id" value="1000"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_role_menu">
+            <column name="id" value="21"/>
+            <column name="role_id" value="1"/>
+            <column name="menu_id" value="1001"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_role_menu">
+            <column name="id" value="22"/>
+            <column name="role_id" value="1"/>
+            <column name="menu_id" value="1002"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_role_menu">
+            <column name="id" value="23"/>
+            <column name="role_id" value="1"/>
+            <column name="menu_id" value="1029"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_role_menu">
+            <column name="id" value="24"/>
+            <column name="role_id" value="1"/>
+            <column name="menu_id" value="1031"/>
+        </ext:insert>
+        <ext:insert identityInsertEnabled="true" tableName="cscp_role_menu">
+            <column name="id" value="25"/>
+            <column name="role_id" value="1"/>
+            <column name="menu_id" value="1032"/>
+        </ext:insert>
+
+        <rollback>
+            <dropTable tableName="cscp_role_menu"/>
+        </rollback>
+    </changeSet>
+
+
+    <changeSet id="BASE-ORACLE-20190128-016" dbms="oracle" author="ctsi">
+        <createSequence sequenceName="SEQ_CSCP_USER_PASSWORD_CHANGE_LOG_ID" incrementBy="1" minValue="1" maxValue="99999999999" startValue="1"/>
+    </changeSet>
+    <changeSet id="BASE-20190128-016" author="ctsi" >
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="cscp_user_password_change_log"/>
+            </not>
+        </preConditions>
+        <createTable tableName="cscp_user_password_change_log">
+            <column name="id" type="${intType}" autoIncrement="${autoIncrement}" >
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="user_id" type="${intType}"  >
+                <constraints nullable="false" />
+            </column>
+            <column name="password" type="varchar(100)"  >
+                <constraints nullable="false" />
+            </column>
+            <column name="time" type="datetime"  >
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <sql dbms="mysql" >ALTER TABLE `cscp_user_password_change_log` CONVERT TO CHARACTER SET UTF8;</sql>
+
+        <rollback>
+            <dropTable tableName="cscp_user_password_change_log"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>
