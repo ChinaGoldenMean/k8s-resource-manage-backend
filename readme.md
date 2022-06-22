@@ -2,7 +2,7 @@
   ## 准备
   -   推荐内存4G  硬盘30G以上 
   -   安装java1.8运行环境。
-  ## 安装
+  ## 安装 
   ####  数据库初始化
   本程序使用mysql 8.011
   创建数据库resource_manage ,设置utf-8编码 utf8_general_ci 排序规则.
